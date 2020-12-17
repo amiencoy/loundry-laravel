@@ -27,7 +27,7 @@
       <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
           <a class="navbar-brand brand-logo" href="{{ url('/dashboard') }}">
-            <img src="{{ asset('icons/logo.png') }}" alt="logo" /> </a>
+            <img src="{{ asset('icons/log.png') }}" alt="logo" /> </a>
           <a class="navbar-brand brand-logo-mini" href="{{ url('/dashboard') }}">
             <img src="{{ asset('icons/logo-mini.png') }}" alt="logo" /> </a>
         </div>
