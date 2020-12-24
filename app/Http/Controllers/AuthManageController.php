@@ -12,8 +12,7 @@ class AuthManageController extends Controller
     // Show View Login
     public function viewLogin()
     {
-    	$users = User::all()
-    	->count();
+    	$users = User::all()->count();
 
     	return view('login', compact('users'));
     }
