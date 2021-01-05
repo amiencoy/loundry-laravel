@@ -89,7 +89,7 @@
 			<tr>
 				<td class="left w-long">Kode Transaksi : </td>
 				<td class="left">{{ $transaction->kode_transaksi }}</td>
-				<td class="right">Kasir : </td>
+				<td class="right">{{($user['role'] == "pelanggan") ? "User :" : "Kasir :"}} </td>
 				@php
 				$nama_kasir = explode(' ', $transaction->kasir);
 				$kasir = $nama_kasir[0];
@@ -108,7 +108,7 @@
 			<thead>
 				<tr>
 					<td>Nama Barang</td>
-					<td>Qty</td>
+					<td>Berat</td>
 					<td>Harga</td>
 					<td>Jumlah</td>
 				</tr>
@@ -120,7 +120,7 @@
 				@foreach($transactions as $transaksi)
 				<tr>
 					<td>{{ $transaksi->nama_barang }}</td>
-					<td>{{ $transaksi->jumlah }}</td>
+					<td>{{ $transaksi->jumlah }} Kg</td>
 					<td>{{ number_format($transaksi->harga,2,',','.') }}</td>
 					<td>{{ number_format($transaksi->total_barang,2,',','.') }}</td>
 				</tr>

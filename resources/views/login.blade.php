@@ -26,7 +26,7 @@
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
               <div class="auto-form-wrapper">
-                @if($users != 0)
+                @if($users == 0)
                 <form action="{{ url('/verify_login') }}" method="post" name="login_form">
                   @csrf
                   <div class="form-group">
@@ -50,10 +50,17 @@
                   <div class="form-group">
                     <button class="btn btn-primary submit-btn btn-block">Masuk</button>
                   </div>
+                  <div >
+                    Belum Punya akun? <a href="{{ url('/register') }}">Daftar</a>
+                  </div><div >
+                    Mendaftar sebagai pengusaha? <a href="{{ url('/register_pengusaha') }}">Daftar</a>
+                  </div>
                 </form>
-                @else
-                <form action="{{ url('/first_account') }}" method="post" name="create_form">
+                @elseif($users == 1)
+                <center>Daftar Sebagai Pengusaha</center>
+                <form action="{{ url($url) }}" method="post" name="create_form">
                   @csrf
+                  <input type="hidden" class="form-control" name="role" value="1">
                   <div class="form-group">
                     <label class="label">Nama</label>
                     <div class="input-group">
@@ -92,6 +99,61 @@
                   </div>
                   <div class="form-group">
                     <button class="btn btn-primary submit-btn btn-block">Buat Akun</button>
+                  </div>
+                  <div >
+                    Sudah Punya akun? <a href="{{ url('/login') }}">Login</a>
+                  </div><div >
+                    Mendaftar sebagai pelanggan? <a href="{{ url('/register') }}">Daftar</a>
+                  </div>
+                </form>
+                @else
+                <center>Daftar Sebagai Pelanggan</center>
+                <form action="{{ url($url) }}" method="post" name="create_form">
+                  @csrf
+                  <input type="hidden" class="form-control" name="role" value="2">
+                  <div class="form-group">
+                    <label class="label">Nama</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="nama" placeholder="Nama">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="nama_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Email</label>
+                    <div class="input-group">
+                      <input type="email" class="form-control" name="email" placeholder="Email">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="email_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Username</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="username_2" placeholder="Username">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="username_2_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Password</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" name="password_2" placeholder="*********">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="password_2_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary submit-btn btn-block">Buat Akun</button>
+                  </div>
+                  <div >
+                    Sudah Punya akun? <a href="{{ url('/login') }}">Login</a>
+                  </div><div >
+                    Mendaftar sebagai pengusaha? <a href="{{ url('/register_pengusaha') }}">Daftar</a>
                   </div>
                 </form>
                 @endif

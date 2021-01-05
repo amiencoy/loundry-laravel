@@ -1,4 +1,5 @@
 {
+  	"license": "proprietary",
     "name": "acer/loundry-laravel",
     "authors": [
         {
@@ -6,5 +7,12 @@
             "email": "47519476+18050623023@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {
+  	  	"laravel/laravel": "^8.5",
+  	  	"maatwebsite/excel": "^3.1",
+  	  	"barryvdh/laravel-dompdf": "^0.9.0",
+  	  	"facade/ignition": "^2.5",
+  	  	"laravel/ui": "^3.1",
+  	  	"nunomaduro/collision": "^5.1"
+  	}
 }

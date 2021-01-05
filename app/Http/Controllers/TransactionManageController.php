@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use Auth;
 use Session;
+use App\User;
 use App\Acces;
 use App\Market;
 use App\Product;
@@ -39,7 +40,7 @@ class TransactionManageController extends Controller
         $check_access = Acces::where('user', $id_account)
         ->first();
         if($check_access->transaksi == 1){
-        	$product = Product::where('kode_barang', '=', $id)
+        	$product = Product::where('id', $id)
         	->first();
         	$supply_system = Supply_system::first();
         	$status = $supply_system->status;
@@ -92,12 +93,12 @@ class TransactionManageController extends Controller
         $check_access = Acces::where('user', $id_account)
         ->first();
         if($check_access->transaksi == 1){
-    		$jml_barang = count($req->kode_barang);
+    		$jml_barang = count($req->id);
         	for($i = 0; $i < $jml_barang; $i++){
         		$transaction = new Transaction;
         		$transaction->kode_transaksi = $req->kode_transaksi;
-        		$transaction->kode_barang = $req->kode_barang[$i];
-                $product_data = Product::where('kode_barang', $req->kode_barang[$i])
+        		$transaction->kode_barang = $req->id[$i];
+                $product_data = Product::where('id', $req->id[$i])
                 ->first();
                 $transaction->nama_barang = $product_data->nama_barang;
                 $transaction->harga = $product_data->harga;
@@ -155,13 +156,14 @@ class TransactionManageController extends Controller
             $transaction = Transaction::where('transactions.kode_transaksi', '=', $id)
             ->select('transactions.*')
             ->first();
+            $user = User::where('id',$transaction->id_kasir)->select('role')->first();
             $transactions = Transaction::where('transactions.kode_transaksi', '=', $id)
             ->select('transactions.*')
             ->get();
             $diskon = $transaction->subtotal * $transaction->diskon / 100;
 
             $customPaper = array(0,0,400.00,283.80);
-            $pdf = PDF::loadview('transaction.receipt_transaction', compact('transaction', 'transactions', 'diskon', 'market'))->setPaper($customPaper, 'landscape');
+            $pdf = PDF::loadview('transaction.receipt_transaction', compact('transaction', 'transactions', 'diskon', 'market', 'user'))->setPaper($customPaper, 'landscape');
             return $pdf->stream();
         }else{
             return back();
