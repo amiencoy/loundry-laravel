@@ -130,21 +130,11 @@ class ViewManageController extends Controller
     // Update Market
     public function updateMarket(Request $req)
     {
-        $market = Market::where($req->nama_toko);
-        if (isset($market)) {
-            $market->nama_toko = $req->nama_toko;
-            $market->no_telp = $req->no_telp;
-            $market->alamat = $req->alamat;
-            $market->save();
-        }else{
-            $nMarket = new Market;
-            $nMarket->nama_toko = $req->nama_toko;
-            $nMarket->no_telp = $req->no_telp;
-            $nMarket->alamat = $req->alamat;
-            $nMarket->save();
-
-        }
-        /**/
+        $market = Market::first();
+        $market->nama_toko = $req->nama_toko;
+        $market->no_telp = $req->no_telp;
+        $market->alamat = $req->alamat;
+        $market->save();
 
         Session::flash('update_success', 'Pengaturan berhasil diubah');
 

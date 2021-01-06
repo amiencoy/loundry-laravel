@@ -22,17 +22,6 @@ class CreateAccessTable extends Migration
             $table->boolean('kelola_laporan');
             $table->timestamps();
         });
-
-        DB::table('access')->insert(
-            array(
-                'user' => 1,
-                'kelola_akun' => 1,
-                'kelola_barang' => 1,
-                'transaksi' => 1,
-                'kelola_laporan' => 1
-            )
-        );
-
     }
 
     /**

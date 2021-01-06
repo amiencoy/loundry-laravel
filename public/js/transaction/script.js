@@ -69,20 +69,7 @@ function jumlahBarang(){
 }
 
 function tambahData(kode, nama, harga, stok, status) {
-  var tambah_data = '<tr><td><input type="text" name="id[]" hidden="" value="'+ kode +'">'
-  tambah_data +='<span class="nama-barang-td">'+ nama +'</span><span class="kode-barang-td">'+ kode +'</span>'
-  tambah_data +='</td><td><input type="text" name="harga_barang[]" hidden="" value="'+ harga +'">'
-  tambah_data +='<span>Rp. '+ parseInt(harga).toLocaleString() +'</span></td><td><div class="d-flex justify-content-start align-items-center">'
-  tambah_data +='<input type="text" name="jumlah_barang[]" hidden="" value="1">'
-  tambah_data +='<a href="#" class="btn-operate mr-2 btn-tambah"><i class="mdi mdi-plus"></i></a>'
-  tambah_data +='<span class="ammount-product mr-2" unselectable="on" onselectstart="return false;" onmousedown="return false;">'
-  tambah_data +='<p class="jumlah_barang_text">1</p></span>'
-  tambah_data +='<a href="#" class="btn-operate btn-kurang"><i class="mdi mdi-minus"></i></a>'
-  tambah_data +='</div></td><td><input type="text" class="total_barang" name="total_barang[]" hidden="" value="'+ harga +'">'
-  tambah_data +='<span>Rp. '+ parseInt(harga).toLocaleString() +'</span>'
-  tambah_data +='</td><td><a href="#" class="btn btn-icons btn-rounded btn-secondary ml-1 btn-hapus"><i class="mdi mdi-close"></i>'
-  tambah_data +='</a></td><td hidden=""><span>'+ stok +'</span><span>'+ status +'</span></td></tr>';
-    tambah_data +=
+  var tambah_data = '<tr><td><input type="text" name="kode_barang[]" hidden="" value="'+ kode +'"><span class="nama-barang-td">'+ nama +'</span><span class="kode-barang-td">'+ kode +'</span></td><td><input type="text" name="harga_barang[]" hidden="" value="'+ harga +'"><span>Rp. '+ parseInt(harga).toLocaleString() +'</span></td><td><div class="d-flex justify-content-start align-items-center"><input type="text" name="jumlah_barang[]" hidden="" value="1"><a href="#" class="btn-operate mr-2 btn-tambah"><i class="mdi mdi-plus"></i></a><span class="ammount-product mr-2" unselectable="on" onselectstart="return false;" onmousedown="return false;"><p class="jumlah_barang_text">1</p></span><a href="#" class="btn-operate btn-kurang"><i class="mdi mdi-minus"></i></a></div></td><td><input type="text" class="total_barang" name="total_barang[]" hidden="" value="'+ harga +'"><span>Rp. '+ parseInt(harga).toLocaleString() +'</span></td><td><a href="#" class="btn btn-icons btn-rounded btn-secondary ml-1 btn-hapus"><i class="mdi mdi-close"></i></a></td><td hidden=""><span>'+ stok +'</span><span>'+ status +'</span></td></tr>';
   $('.table-checkout').append(tambah_data);
   subtotalBarang();
   diskonBarang();

@@ -66,8 +66,7 @@
 				  		<select class="form-control" name="role">
 				  			<option value="">-- Pilih Posisi --</option>
 				  			<option value="admin">Admin</option>
-				  			<option value="pelanggan">Pelanggan</option>
-				  			<option value="pengusaha">Pengusaha</option>
+				  			<option value="kasir">Kasir</option>
 				  		</select>
 				  	</div>
 				  	<div class="col-12 error-notice" id="role_error"></div>

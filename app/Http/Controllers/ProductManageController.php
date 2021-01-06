@@ -24,8 +24,9 @@ class ProductManageController extends Controller
         if($check_access->kelola_barang == 1){
         	$products = Product::all()
             ->sortBy('kode_barang');
+            $supply_system = Supply_system::first();
 
-        	return view('manage_product.product', compact('products'));
+        	return view('manage_product.product', compact('products', 'supply_system'));
         }else{
             return back();
         }
@@ -70,7 +71,8 @@ class ProductManageController extends Controller
         $check_access = Acces::where('user', $id_account)
         ->first();
         if($check_access->kelola_barang == 1){
-        	$check_product = 0;
+        	$check_product = Product::where('kode_barang', $req->kode_barang)
+        	->count();
             $supply_system = Supply_system::first();
 
         	if($check_product == 0)

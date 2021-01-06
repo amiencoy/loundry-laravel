@@ -17,7 +17,7 @@ class UserManageController extends Controller
     {
     	$users = new User;
     	$users->nama = $req->nama;
-    	$users->role = ($req->role == 1) ? 'pengusaha' : 'pelanggan' ;
+    	$users->role = 'admin';
     	$users->foto = 'default.jpg';
     	$users->email = $req->email;
     	$users->username = $req->username_2;
@@ -27,41 +27,16 @@ class UserManageController extends Controller
 
         $access = new Acces;
         $access->user = $users->id;
-        $access->kelola_akun = 0;
-        $access->kelola_barang = ($req->role == 1) ? 1 : 0 ;
-        $access->transaksi = 1;
-        $access->kelola_laporan = ($req->role == 1) ? 1 : 0 ;
-        $access->save();
-
-    	Session::flash('create_success', 'Akun baru berhasil dibuat');
-
-    	return back();
-    }
-/*
-    public function adminAccount(Request $req)
-    {
-        $users = new User;
-        $users->nama = $req->nama;
-        $users->role = 'admin';
-        $users->foto = 'default.jpg';
-        $users->email = $req->email;
-        $users->username = $req->username_2;
-        $users->password = Hash::make($req->password_2);
-        $users->remember_token = Str::random(60);
-        $users->save();
-
-        $access = new Acces;
-        $access->user = $users->id;
         $access->kelola_akun = 1;
         $access->kelola_barang = 1;
         $access->transaksi = 1;
         $access->kelola_laporan = 1;
         $access->save();
 
-        Session::flash('create_success', 'Akun baru berhasil dibuat');
+    	Session::flash('create_success', 'Akun baru berhasil dibuat');
 
-        return back();
-    }*/
+    	return back();
+    }
 
     // Show View Account
     public function viewAccount()
@@ -122,18 +97,14 @@ class UserManageController extends Controller
         	->where('username', $req->username)
         	->count();
 
-        	if($check_email == 0 && $check_username == 0)
+        	if($req->foto != '' && $check_email == 0 && $check_username == 0)
         	{
         		$users = new User;
     	    	$users->nama = $req->nama;
-    	    	$users->role = $req->role;     		
-                if ($req->foto != '' ) {
-                    $foto = $req->file('foto');
-                    $users->foto = $foto->getClientOriginalName();
-                    $foto->move(public_path('pictures/'), $foto->getClientOriginalName());
-                }else{
-                    $users->foto = 'default.jpg';
-                }
+    	    	$users->role = $req->role;
+        		$foto = $req->file('foto');
+                $users->foto = $foto->getClientOriginalName();
+                $foto->move(public_path('pictures/'), $foto->getClientOriginalName());
                 $users->email = $req->email;
     	    	$users->username = $req->username;
     	    	$users->password = Hash::make($req->password);
@@ -147,10 +118,35 @@ class UserManageController extends Controller
                     $access->transaksi = 1;
                     $access->kelola_laporan = 1;
                     $access->save();
-                }elseif($req->role == 'pengusaha'){
+                }else{
                     $access = new Acces;
                     $access->user = $users->id;
                     $access->kelola_akun = 0;
+                    $access->kelola_barang = 1;
+                    $access->transaksi = 1;
+                    $access->kelola_laporan = 1;
+                    $access->save();
+                }
+
+    	    	Session::flash('create_success', 'Akun baru berhasil dibuat');
+
+    	    	return redirect('/account');
+        	}
+        	else if($req->foto == '' && $check_email == 0 && $check_username == 0)
+        	{
+        		$users = new User;
+    	    	$users->nama = $req->nama;
+    	    	$users->role = $req->role;
+    	    	$users->foto = 'default.jpg';
+                $users->email = $req->email;
+    	    	$users->username = $req->username;
+    	    	$users->password = Hash::make($req->password);
+    	    	$users->remember_token = Str::random(60);
+    	    	$users->save();
+                if($req->role == 'admin'){
+                    $access = new Acces;
+                    $access->user = $users->id;
+                    $access->kelola_akun = 1;
                     $access->kelola_barang = 1;
                     $access->transaksi = 1;
                     $access->kelola_laporan = 1;
@@ -159,9 +155,9 @@ class UserManageController extends Controller
                     $access = new Acces;
                     $access->user = $users->id;
                     $access->kelola_akun = 0;
-                    $access->kelola_barang = 0;
+                    $access->kelola_barang = 1;
                     $access->transaksi = 1;
-                    $access->kelola_laporan = 0;
+                    $access->kelola_laporan = 1;
                     $access->save();
                 }
 

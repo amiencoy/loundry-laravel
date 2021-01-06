@@ -26,9 +26,9 @@
       <!-- TopNav -->
       <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-          <a class="navbar-brand brand-logo" href="{{ url('/') }}">
+          <a class="navbar-brand brand-logo" href="{{ url('/dashboard') }}">
             <img src="{{ asset('icons/log.png') }}" alt="logo" /> </a>
-          <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
+          <a class="navbar-brand brand-logo-mini" href="{{ url('/dashboard') }}">
             <img src="{{ asset('icons/logo-mini.png') }}" alt="logo" /> </a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -49,7 +49,6 @@
               ->take(3)
               ->get();
               @endphp
-              @if(auth()->user()->role != "pelanggan")
               <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline"></i>
                 @if($cek_supply_system->status == 1)
@@ -58,7 +57,6 @@
                   @endif
                 @endif
               </a>
-              @endif
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
                 <div class="dropdown-item py-3 border-bottom">
                   @if($cek_supply_system->status == 1)
@@ -141,13 +139,11 @@
               </a>
             </li>
             <li class="nav-item nav-category">Daftar Menu</li>
-            @if (auth()->user()->role != 'pelanggan')
             <li class="nav-item">
               <a class="nav-link" href="{{ url('/dashboard') }}">
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
-            @endif
             @php
             $access = \App\Acces::where('user', auth()->user()->id)
             ->first();

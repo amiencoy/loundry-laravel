@@ -15,12 +15,15 @@
 	        <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton1">
 	          <h6 class="dropdown-header">Urut Berdasarkan :</h6>
 	          <div class="dropdown-divider"></div>
-	          <a href="#" class="dropdown-item filter-btn" data-filter="kode_barang">Kode Jasa</a>
-            <a href="#" class="dropdown-item filter-btn" data-filter="jenis_barang">Jenis Jasa</a>
-            <a href="#" class="dropdown-item filter-btn" data-filter="nama_barang">Nama Jasa</a>
-            <a href="#" class="dropdown-item filter-btn" data-filter="berat_barang">Berat Jasa</a>
-            <a href="#" class="dropdown-item filter-btn" data-filter="merek">Merek Jasa</a>
-            <a href="#" class="dropdown-item filter-btn" data-filter="harga">Harga Jasa</a>
+	          <a href="#" class="dropdown-item filter-btn" data-filter="kode_barang">Kode Barang</a>
+            <a href="#" class="dropdown-item filter-btn" data-filter="jenis_barang">Jenis Barang</a>
+            <a href="#" class="dropdown-item filter-btn" data-filter="nama_barang">Nama Barang</a>
+            <a href="#" class="dropdown-item filter-btn" data-filter="berat_barang">Berat Barang</a>
+            <a href="#" class="dropdown-item filter-btn" data-filter="merek">Merek Barang</a>
+            @if($supply_system->status == true)
+            <a href="#" class="dropdown-item filter-btn" data-filter="stok">Stok Barang</a>
+            @endif
+            <a href="#" class="dropdown-item filter-btn" data-filter="harga">Harga Barang</a>
 	        </div>
 	      </div>
         <div class="dropdown dropdown-search">
@@ -48,7 +51,7 @@
       <div class="modal-content">
         <form action="{{ url('/product/update') }}" method="post" name="update_form">
           <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">Edit Jasa</h5>
+            <h5 class="modal-title" id="editModalLabel">Edit Barang</h5>
             <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -61,25 +64,64 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Nama Jasa</label>
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Kode Barang</label>
+                <div class="col-lg-7 col-md-7 col-sm-10 col-10">
+                  <input type="text" class="form-control" name="kode_barang">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+                  <button class="btn btn-inverse-primary btn-sm btn-scan shadow-sm" type="button"><i class="mdi mdi-crop-free"></i></button>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 offset-lg-3 offset-md-3 error-notice" id="kode_barang_error"></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Jenis Barang</label>
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                  <select class="form-control" name="jenis_barang">
+                    <option value="Produksi">Produksi</option>
+                    <option value="Konsumsi">Konsumsi</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Nama Barang</label>
                 <div class="col-lg-9 col-md-9 col-sm-12">
                   <input type="text" class="form-control" name="nama_barang">
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-12 offset-lg-3 offset-md-3 error-notice" id="nama_barang_error"></div>
               </div>
               <div class="form-group row">
-                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Berat Jasa</label>
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Berat Barang</label>
                 <div class="col-lg-9 col-md-9 col-sm-12">
                   <div class="input-group">
                       <input type="text" class="form-control number-input input-notzero" name="berat_barang">
                       <div class="input-group-append">
-                        <span class="input-group-text" >Kilogram</span>
+                        <select class="form-control" name="satuan_berat">
+                          <option value="kg">Kilogram</option>
+                          <option value="g">Gram</option>
+                          <option value="ml">Miligram</option>
+                          <option value="oz">Ons</option>
+                          <option value="l">Liter</option>
+                          <option value="ml">Mililiter</option>
+                        </select>
                       </div>
                     </div>
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Harga Jasa</label>
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Merek Barang</label>
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                  <input type="text" class="form-control" name="merek">
+                </div>
+              </div>
+              <div class="form-group row" @if($supply_system->status == false) hidden="" @endif>
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Stok Barang</label>
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                  <input type="text" class="form-control number-input" name="stok">
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 offset-lg-3 offset-md-3 error-notice" id="stok_error"></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-lg-3 col-md-3 col-sm-12 col-form-label font-weight-bold">Harga Barang</label>
                 <div class="col-lg-9 col-md-9 col-sm-12">
                   <div class="input-group">
                       <div class="input-group-prepend">
@@ -91,7 +133,18 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 offset-lg-3 offset-md-3 error-notice" id="harga_error"></div>
               </div>
           </div>
-          
+          <div class="modal-body" id="scan-modal-body" hidden="">
+            <div class="row">
+              <div class="col-12 text-center" id="area-scan">
+              </div>
+              <div class="col-12 barcode-result" hidden="">
+                <h5 class="font-weight-bold">Hasil</h5>
+                <div class="form-border">
+                  <p class="barcode-result-text"></p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="modal-footer" id="edit-modal-footer">
             <button type="submit" class="btn btn-update"><i class="mdi mdi-content-save"></i> Simpan</button>
           </div>
@@ -105,6 +158,21 @@
   </div>
 </div>
 <div class="row">
+  <div class="col-12">
+    <div class="alert alert-primary d-flex justify-content-between align-items-center" role="alert">
+      @if($supply_system->status == false)
+      <div class="text-instruction">
+        <i class="mdi mdi-information-outline mr-2"></i> Aktifkan sistem stok dan pasok barang dengan klik tombol disamping
+      </div>
+      <a href="{{ url('/supply/system/active') }}" class="btn stok-btn">Aktifkan</a>
+      @else
+      <div class="text-instruction">
+        <i class="mdi mdi-information-outline mr-2"></i> Nonaktifkan sistem stok dan pasok barang dengan klik tombol disamping
+      </div>
+      <a href="{{ url('/supply/system/nonactive') }}" class="btn stok-btn">Nonaktifkan</a>
+      @endif
+    </div>
+  </div>
   <div class="col-12 grid-margin">
     <div class="card card-noborder b-radius">
       <div class="card-body">
@@ -113,8 +181,13 @@
         		<table class="table table-custom">
               <thead>
                 <tr>
-                  <th>Jasa</th>
+                  <th>Barang</th>
+                  <th>Jenis</th>
                   <th>Berat</th>
+                  <th>Merk</th>
+                  @if($supply_system->status == true)
+                  <th>Stok</th>
+                  @endif
                   <th>Harga</th>
                   <th>Keterangan</th>
                   <th></th>
@@ -124,11 +197,25 @@
                 @foreach($products as $product)
               	<tr>
                   <td>
-                    <span class="kd-barang-field">{{ $product->nama_barang }}</span>
+                    <span class="kd-barang-field">{{ $product->kode_barang }}</span><br><br>
+                    <span class="nama-barang-field">{{ $product->nama_barang }}</span>
                   </td>
+                  <td>{{ $product->jenis_barang }}</td>
                   <td>{{ $product->berat_barang }}</td>
+                  <td>{{ $product->merek }}</td>
+                  @if($supply_system->status == true)
+                  <td><span class="ammount-box bg-secondary"><i class="mdi mdi-cube-outline"></i></span>{{ $product->stok }}</td>
+                  @endif
                   <td><span class="ammount-box bg-green"><i class="mdi mdi-coin"></i></span>Rp. {{ number_format($product->harga,2,',','.') }}</td>
-                 
+                  @if($supply_system->status == true)
+                  <td>
+                    @if($product->keterangan == 'Tersedia')
+                    <span class="btn tersedia-span">{{ $product->keterangan }}</span>
+                    @else
+                    <span class="btn habis-span">{{ $product->keterangan }}</span>
+                    @endif
+                  </td>
+                  @endif
                   <td>
                     <button type="button" class="btn btn-edit btn-icons btn-rounded btn-secondary" data-toggle="modal" data-target="#editModal" data-edit="{{ $product->id }}">
                         <i class="mdi mdi-pencil"></i>
@@ -240,7 +327,7 @@
     var data_delete = $(this).attr('data-delete');
     swal({
       title: "Apa Anda Yakin?",
-      text: "Data Jasa akan terhapus, klik oke untuk melanjutkan",
+      text: "Data barang akan terhapus, klik oke untuk melanjutkan",
       icon: "warning",
       buttons: true,
       dangerMode: true,
