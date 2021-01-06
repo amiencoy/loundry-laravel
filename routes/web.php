@@ -17,13 +17,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+ 
+//verifikasi email user
+Auth::routes(['verify' => true]);
+
+Route::get('/forgot', function ()
+{
+	return view('auth.forgot-password');
+});	
+
 Route::get('/login', 'AuthManageController@viewLogin')->name('login');
-Route::post('/verify_login', 'AuthManageController@verifyLogin');
+Route::post('/verify_login', 'AuthManageController@verifyLogin');		
 Route::get('/register', 'AuthManageController@viewRegist');
 Route::get('/register_pengusaha', 'AuthManageController@viewRegistPeng');
 Route::post('/first_account', 'UserManageController@firstAccount');
 
 Route::group(['middleware' => ['auth', 'checkRole:admin']], function(){
+
+
+	Route::get('/market/{id}', 'viewManageController@dataMarket');
+
 	// ------------------------- Kelola Akun -------------------------
 	// > Akun
 	Route::get('/account', 'UserManageController@viewAccount');
@@ -38,13 +52,24 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function(){
 	Route::get('/access/change/{user}/{access}', 'AccessManageController@changeAccess');
 	Route::get('/access/check/{user}', 'AccessManageController@checkAccess');
 	Route::get('/access/sidebar', 'AccessManageController@sidebarRefresh');
+
+	// ------------------------- Kelola Laporan -------------------------
+
+	Route::get('/report/workers', 'ReportManageController@reportWorker');
+	Route::get('/report/workers/filter/{id}', 'ReportManageController@filterWorker');
+	Route::get('/report/workers/detail/{id}', 'ReportManageController@detailWorker');
+	Route::post('/report/workers/export/{id}', 'ReportManageController@exportWorker');
 	
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:admin,pengusaha']], function(){
+Route::group(['middleware' => ['auth', 'checkRole:admin,pengusaha','verified']], function(){
+	
 	Route::get('/dashboard', 'ViewManageController@viewDashboard');
 	Route::get('/dashboard/chart/{filter}', 'ViewManageController@filterChartDashboard');
 	Route::post('/market/update', 'ViewManageController@updateMarket');
+	Route::post('/market/add', 'viewManageController@addMarket');
+	Route::get('/market/del/{id}', 'viewManageController@deleteMarket');
+
 	// ------------------------- Kelola Barang -------------------------
 	// > Barang
 	Route::get('/product', 'ProductManageController@viewProduct');
@@ -68,19 +93,15 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,pengusaha']], function()
 	Route::get('/supply/statistics/users/{id}', 'SupplyManageController@statisticsUsers');
 	Route::get('/supply/statistics/table/{id}', 'SupplyManageController@statisticsTable');
 	Route::post('/supply/statistics/export', 'SupplyManageController@exportSupply');
+
 	// ------------------------- Kelola Laporan -------------------------
 	Route::get('/report/transaction', 'ReportManageController@reportTransaction');
 	Route::post('/report/transaction/filter', 'ReportManageController@filterTransaction');
 	Route::get('/report/transaction/chart/{id}', 'ReportManageController@chartTransaction');
 	Route::post('/report/transaction/export', 'ReportManageController@exportTransaction');
-	Route::get('/report/workers', 'ReportManageController@reportWorker');
-	Route::get('/report/workers/filter/{id}', 'ReportManageController@filterWorker');
-	Route::get('/report/workers/detail/{id}', 'ReportManageController@detailWorker');
-	Route::post('/report/workers/export/{id}', 'ReportManageController@exportWorker');
-
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:admin,pelanggan,pengusaha']], function(){
+Route::group(['middleware' => ['auth', 'checkRole:admin,pelanggan,pengusaha','verified']], function(){
 	Route::get('/logout', 'AuthManageController@logoutProcess');
 	// ------------------------- Fitur Cari -------------------------
 	Route::get('/search/{word}', 'SearchManageController@searchPage');

@@ -48,7 +48,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Masuk</button>
+                    <button class="btn btn-primary submit-btn btn-block">Masuk</button><center> <a href="{{ url('/forgot') }}">Lupa Password</a> </center> 
                   </div>
                   <div >
                     Belum Punya akun? <a href="{{ url('/register') }}">Daftar</a>

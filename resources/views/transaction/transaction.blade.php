@@ -6,7 +6,7 @@
 <div class="row page-title-header">
   <div class="col-12">
     <div class="page-header d-flex justify-content-start align-items-center">
-      <h4 class="page-title">Daftar Barang</h4>
+      <h4 class="page-title">Daftar Layanan</h4>
     </div>
   </div>
 </div>
@@ -15,7 +15,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tableModalLabel">Daftar Barang</h5>
+          <h5 class="modal-title" id="tableModalLabel">Daftar Layanan</h5>
           <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -165,7 +165,7 @@
                   <div class="cart-icon mr-3">
                     <i class="mdi mdi-cart-outline"></i>
                   </div>
-                  <p class="m-0 text-black-50">Daftar Pesanan</p>
+                  <p class="m-0 text-black-50">Daftar Jasa</p>
                 </div>
                 <div class="col-12 mt-3 table-responsive">
                   <table class="table table-checkout">
@@ -208,6 +208,8 @@
                   <td hidden=""><input type="text" class="nilai-subtotal2-td" name="subtotal" value="0"></td>
                 </tr>
                 <tr>
+                  @if($user == 'pengusaha')
+                  <input type="hidden" name="kode_market" value="{{auth()->user()->kode_market}}">
                   <td class="text-left">
                     <span class="diskon-td">Diskon</span>
                     <a href="#" class="ubah-diskon-td">Ubah diskon</a>
@@ -218,6 +220,19 @@
                     <span class="nilai-diskon-td mr-1">0</span>
                     <span>%</span>
                   </td>
+                  @else
+                  <input type="number" class="form-control diskon-input mr-2" min="0" max="100" name="diskon" value="0" hidden>
+                  <td class="text-left">
+                    Pilih Toko
+                  </td>
+                  <td class="text-right d-flex justify-content-end align-items-center pt-2">
+                  <select class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="kode_market">
+                  @foreach($market as $item)
+                    <option value="{{ $item->id }}">{{ $item->nama_toko }}</option>
+                  @endforeach
+                  </select>
+                  </td>
+                  @endif
                 </tr>
                 <tr>
                   <td colspan="2" class="text-center nilai-total1-td">Rp. 0</td>

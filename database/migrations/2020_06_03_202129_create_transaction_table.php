@@ -16,6 +16,7 @@ class CreateTransactionTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('kode_transaksi');
+            $table->string('kode_market');
             $table->string('kode_barang');
             $table->string('nama_barang');
             $table->bigInteger('harga');

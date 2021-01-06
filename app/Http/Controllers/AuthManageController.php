@@ -43,7 +43,7 @@ class AuthManageController extends Controller
     	}
     	Session::flash('login_failed', 'Username atau password salah');
     	
-    	//return redirect('/login');
+    	return redirect('/login');
     }
 
     // Logout Process

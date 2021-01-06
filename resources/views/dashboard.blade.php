@@ -6,10 +6,16 @@
 <div class="row page-title-header">
   <div class="col-12">
     <div class="page-header d-flex justify-content-between align-items-center">
-      <h4 class="page-title">Dashboard</h4>
-      <button class="setting-btn" data-toggle="modal" data-target="#pengaturanTokoModal">
+      <h4 class="page-title">Dashboard </h4>
+      @if ( $user != 'admin')
+        @if(auth()->user()->kode_market == 0 )
+      <button class="setting-btn tambah" data-toggle="modal" data-target="#pengaturanTokoModal">Tambah Toko</button>
+        @else
+        <button class="setting-btn" data-toggle="modal" data-target="#pengaturanTokoModal">
         Pengaturan Toko
-      </button>
+        </button>
+        @endif
+      @endif
     </div>
   </div>
 </div>
@@ -17,8 +23,12 @@
   <div class="modal fade" id="pengaturanTokoModal" tabindex="-1" role="dialog" aria-labelledby="pengaturanTokoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form name="market_form" action="{{ url('/market/update') }}" method="POST">
+        <form name="market_form" id="form_market" action="{{ url('/market/update') }}" method="POST">
           @csrf
+          @if ($user == "pengusaha")
+          <input type="hidden" name="id_user" id="id_user" value="0">
+          @endif
+          <input type="hidden" name="id" id="id_market" value="{{ auth()->user()->kode_market }}">
           <div class="modal-header">
             <h5 class="modal-title" id="pengaturanTokoModalLabel">Pengaturan Toko</h5>
             <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
@@ -31,21 +41,21 @@
                 <div class="form-group row">
                   <label class="col-lg-3 col-md-3 col-sm-4 col-12 col-form-label font-weight-bold">Nama Toko</label>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12">
-                    <input type="text" class="form-control" name="nama_toko" placeholder="Masukkan Nama Toko" value="{{ $market->nama_toko }}">
+                    <input type="text" id="nama_toko" class="form-control" name="nama_toko" placeholder="Masukkan Nama Toko" value="{{ ($user == 'pengusaha') ? $market->nama_toko : null }}">
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12 offset-lg-3 offset-md-3 offset-sm-4 error-notice" id="nama_toko_error"></div>
                 </div>
                 <div class="form-group row">
                   <label class="col-lg-3 col-md-3 col-sm-4 col-12 col-form-label font-weight-bold">No Telepon</label>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12">
-                    <input type="text" class="form-control" name="no_telp" placeholder="Masukkan No Telepon" value="{{ $market->no_telp }}">
+                    <input type="text" id="no_telp" class="form-control" name="no_telp" placeholder="Masukkan No Telepon" value="{{ ($user == 'pengusaha') ? $market->no_telp : null }}">
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12 offset-lg-3 offset-md-3 offset-sm-4 error-notice" id="no_telp_error"></div>
                 </div>
                 <div class="form-group row">
                   <label class="col-lg-3 col-md-3 col-sm-4 col-12 col-form-label font-weight-bold">Alamat</label>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12">
-                    <textarea class="form-control" name="alamat" rows="4" placeholder="Masukkan Alamat">{{ $market->alamat }}</textarea>
+                    <textarea id="alamat" class="form-control" name="alamat" rows="4" placeholder="Masukkan Alamat">{{ ($user == 'pengusaha') ?  $market->alamat : null }}</textarea>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-8 col-12 offset-lg-3 offset-md-3 offset-sm-4 error-notice" id="alamat_error"></div>
                 </div>
@@ -122,6 +132,7 @@
       </div>
     </div>
   </div>
+  @if ($user == 'pengusaha')
   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card b-radius card-noborder">
       <div class="card-body">
@@ -173,6 +184,44 @@
       </div>
     </div>
   </div>
+  @else
+  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="card b-radius card-noborder">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="font-weight-semibold">Daftar toko</h5>
+              <button class="setting-btn tambah" data-toggle="modal" data-target="#pengaturanTokoModal"><i class="mdi mdi-plus"></i>Tambah</button>
+            </div>  
+          </div>
+          <div class="col-12">
+            @foreach($market as $market)
+            <div class="text-group mt-3">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                  <span class="icon-transaksi">
+                    <i class="mdi mdi-swap-horizontal"></i>
+                  </span>
+                  <div class="ml-2">
+                    <p class="kode_transaksi font-weight-semibold">{{ $market->nama_toko }}</p>
+                    <p class="des-transaksi">{{ $market->alamat }} </p>
+                  </div>
+                </div>
+                <span>{{ $market->no_telp}}</span>
+                <div>
+                <button class="setting-btn edit" data-toggle="modal" data-id="{{ $market->id }}" data-target="#pengaturanTokoModal"><span class="mdi mdi-pencil"></span> </button>&nbsp;
+                <a href="{{ url('/market/del/'.$market->id) }}"><button class="setting-btn"><span class="mdi mdi-close"></span> </button></a>
+                </div>
+              </div>
+            </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
 </div>
 @endsection
 @section('script')
@@ -180,6 +229,40 @@
 <script src="{{ asset('plugins/js/Chart.min.js') }}"></script>
 <script src="{{ asset('plugins/js/ChartRadius.js') }}"></script>
 <script type="text/javascript">
+
+
+$(document).on('click','.tambah',function (e){
+  e.preventDefault();
+  $('#form_market').attr('action','{{ url("/market/add/") }}');
+  $('#id_market').val(null);
+  $('#nama_toko').val(null);
+  $('#no_telp').val(null);
+  $('#alamat').text(null);
+  $('#id_user').val('{{auth()->id()}}');
+});
+
+$(document).on('click','.edit',function (e){
+  e.preventDefault();
+  //alert($(this).data("id"));
+
+  var id = $(this).data("id");
+
+  $.ajax({
+    url: "{{ url('/market') }}/" + id,
+    method: "GET",
+    dataType : 'json',
+    success:function(data){
+      console.log(data);
+      $('#id_market').val(data['id']);
+  $('#nama_toko').val(data['nama_toko']);
+  $('#no_telp').val(data['no_telp']);
+  $('#alamat').text(data['alamat']);
+    }
+  });
+
+});
+
+
 @if ($message = Session::get('update_success'))
   swal(
       "Berhasil!",

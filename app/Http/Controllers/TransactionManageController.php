@@ -23,11 +23,15 @@ class TransactionManageController extends Controller
         $check_access = Acces::where('user', $id_account)
         ->first();
         if($check_access->transaksi == 1){
+
+            $market = Market::all();
+            $user = Auth::user()->role;
+
         	$products = Product::all()
         	->sortBy('kode_barang');
             $supply_system = Supply_system::first();
 
-            return view('transaction.transaction', compact('products', 'supply_system'));
+            return view('transaction.transaction', compact('products', 'supply_system','market','user'));
         }else{
             return back();
         }
@@ -97,6 +101,7 @@ class TransactionManageController extends Controller
         	for($i = 0; $i < $jml_barang; $i++){
         		$transaction = new Transaction;
         		$transaction->kode_transaksi = $req->kode_transaksi;
+                $transaction->kode_market = $req->kode_market;
         		$transaction->kode_barang = $req->id[$i];
                 $product_data = Product::where('id', $req->id[$i])
                 ->first();
@@ -148,7 +153,6 @@ class TransactionManageController extends Controller
     // Transaction Receipt
     public function receiptTransaction($id)
     {
-        $market = Market::first();
         $id_account = Auth::id();
         $check_access = Acces::where('user', $id_account)
         ->first();
@@ -161,6 +165,9 @@ class TransactionManageController extends Controller
             ->select('transactions.*')
             ->get();
             $diskon = $transaction->subtotal * $transaction->diskon / 100;
+
+
+            $market = Market::where('id', $transaction->kode_market)->get()->first();
 
             $customPaper = array(0,0,400.00,283.80);
             $pdf = PDF::loadview('transaction.receipt_transaction', compact('transaction', 'transactions', 'diskon', 'market', 'user'))->setPaper($customPaper, 'landscape');

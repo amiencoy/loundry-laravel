@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_market')->nullable();
             $table->string('nama');
             $table->string('role');
             $table->string('foto');
@@ -30,6 +31,7 @@ class CreateUsersTable extends Migration
 
         DB::table('users')->insert(
             array(
+                'kode_market' => 0,
                 'nama' => 'admin',
                 'role' => 'admin',
                 'foto' => 'default.jpg',

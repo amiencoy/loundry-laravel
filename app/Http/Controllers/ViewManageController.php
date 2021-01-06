@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Session;
 use Carbon\Carbon;
+use App\User;
 use App\Market;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -58,9 +60,14 @@ class ViewManageController extends Controller
         $customers_daily = count($kode_transaksi_dis_daily);
         $min_date = Transaction::min('created_at');
         $max_date = Transaction::max('created_at');
-        $market = Market::first();
 
-    	return view('dashboard', compact('kd_transaction', 'incomes', 'incomes_daily', 'customers_daily', 'all_incomes', 'min_date', 'max_date', 'market'));
+        $user = Auth::user()->role;
+        $qmarket = Market::where('id',Auth::user()->kode_market)->first() ;
+        $tempmarket = ( isset($qmarket) )  ? $qmarket : Market::first() ;
+        $market = ($user == 'admin') ? Market::all() : $tempmarket ;
+        //dd(Market::where('id',Auth::user()->kode_market)->get());
+
+    	return view('dashboard', compact('kd_transaction', 'incomes', 'incomes_daily', 'customers_daily', 'all_incomes', 'min_date', 'max_date', 'market','user'));
     }
 
     // Filter Chart Dashboard
@@ -130,23 +137,51 @@ class ViewManageController extends Controller
     // Update Market
     public function updateMarket(Request $req)
     {
-        $market = Market::where($req->nama_toko);
-        if (isset($market)) {
-            $market->nama_toko = $req->nama_toko;
-            $market->no_telp = $req->no_telp;
-            $market->alamat = $req->alamat;
-            $market->save();
-        }else{
-            $nMarket = new Market;
-            $nMarket->nama_toko = $req->nama_toko;
-            $nMarket->no_telp = $req->no_telp;
-            $nMarket->alamat = $req->alamat;
-            $nMarket->save();
-
-        }
-        /**/
+        //dd($req);
+        $market = Market::find($req->id);
+        $market->nama_toko = $req->nama_toko;
+        $market->no_telp = $req->no_telp;
+        $market->alamat = $req->alamat;
+        $market->save();
 
         Session::flash('update_success', 'Pengaturan berhasil diubah');
+
+        return back();
+    }
+
+    public function addMarket(Request $req)
+    {
+
+        //dd($req);
+        $nMarket = new Market;
+        $nMarket->nama_toko = $req->nama_toko;
+        $nMarket->no_telp = $req->no_telp;
+        $nMarket->alamat = $req->alamat;
+        $nMarket->save();
+
+        if (isset($req->id_user)) {
+            $user = User::find($req->id_user);
+            $user->kode_market = $nMarket->id ;
+            $user->save();
+        }
+
+        Session::flash('update_success', 'Toko berhasil ditambah');
+
+        return back();
+    }
+
+    public function dataMarket($id)
+    {
+        $market = Market::where('id',$id)->first();
+        return json_encode($market);
+    }
+
+    public function deleteMarket($id)
+    {
+        $market = Market::destroy($id);
+        if ($market) {
+            Session::flash('update_success', 'Toko berhasil dihapus');    
+        }
 
         return back();
     }

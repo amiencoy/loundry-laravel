@@ -125,6 +125,7 @@ class UserManageController extends Controller
         	if($check_email == 0 && $check_username == 0)
         	{
         		$users = new User;
+                $users->kode_market = 0 ;
     	    	$users->nama = $req->nama;
     	    	$users->role = $req->role;     		
                 if ($req->foto != '' ) {
