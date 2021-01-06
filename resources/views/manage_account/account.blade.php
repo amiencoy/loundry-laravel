@@ -92,7 +92,8 @@
                 <div class="col-9">
                   <select class="form-control" name="role">
                     <option value="admin">Admin</option>
-                    <option value="kasir">Kasir</option>
+                    <option value="pelanggan">Pelanggan</option>
+                    <option value="pengusaha">Pengusaha</option>
                   </select>
                 </div>
               </div>

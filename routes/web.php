@@ -19,20 +19,11 @@ Route::get('/', function () {
 
 Route::get('/login', 'AuthManageController@viewLogin')->name('login');
 Route::post('/verify_login', 'AuthManageController@verifyLogin');
+Route::get('/register', 'AuthManageController@viewRegist');
+Route::get('/register_pengusaha', 'AuthManageController@viewRegistPeng');
 Route::post('/first_account', 'UserManageController@firstAccount');
 
-Route::group(['middleware' => ['auth', 'checkRole:admin,kasir']], function(){
-	Route::get('/logout', 'AuthManageController@logoutProcess');
-	Route::get('/dashboard', 'ViewManageController@viewDashboard');
-	Route::get('/dashboard/chart/{filter}', 'ViewManageController@filterChartDashboard');
-	Route::post('/market/update', 'ViewManageController@updateMarket');
-	// ------------------------- Fitur Cari -------------------------
-	Route::get('/search/{word}', 'SearchManageController@searchPage');
-	// ------------------------- Profil -------------------------
-	Route::get('/profile', 'ProfileManageController@viewProfile');
-	Route::post('/profile/update/data', 'ProfileManageController@changeData');
-	Route::post('/profile/update/password', 'ProfileManageController@changePassword');
-	Route::post('/profile/update/picture', 'ProfileManageController@changePicture');
+Route::group(['middleware' => ['auth', 'checkRole:admin']], function(){
 	// ------------------------- Kelola Akun -------------------------
 	// > Akun
 	Route::get('/account', 'UserManageController@viewAccount');
@@ -47,6 +38,13 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,kasir']], function(){
 	Route::get('/access/change/{user}/{access}', 'AccessManageController@changeAccess');
 	Route::get('/access/check/{user}', 'AccessManageController@checkAccess');
 	Route::get('/access/sidebar', 'AccessManageController@sidebarRefresh');
+	
+});
+
+Route::group(['middleware' => ['auth', 'checkRole:admin,pengusaha']], function(){
+	Route::get('/dashboard', 'ViewManageController@viewDashboard');
+	Route::get('/dashboard/chart/{filter}', 'ViewManageController@filterChartDashboard');
+	Route::post('/market/update', 'ViewManageController@updateMarket');
 	// ------------------------- Kelola Barang -------------------------
 	// > Barang
 	Route::get('/product', 'ProductManageController@viewProduct');
@@ -70,12 +68,6 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,kasir']], function(){
 	Route::get('/supply/statistics/users/{id}', 'SupplyManageController@statisticsUsers');
 	Route::get('/supply/statistics/table/{id}', 'SupplyManageController@statisticsTable');
 	Route::post('/supply/statistics/export', 'SupplyManageController@exportSupply');
-	// ------------------------- Transaksi -------------------------
-	Route::get('/transaction', 'TransactionManageController@viewTransaction');
-	Route::get('/transaction/product/{id}', 'TransactionManageController@transactionProduct');
-	Route::get('/transaction/product/check/{id}', 'TransactionManageController@transactionProductCheck');
-	Route::post('/transaction/process', 'TransactionManageController@transactionProcess');
-	Route::get('/transaction/receipt/{id}', 'TransactionManageController@receiptTransaction');
 	// ------------------------- Kelola Laporan -------------------------
 	Route::get('/report/transaction', 'ReportManageController@reportTransaction');
 	Route::post('/report/transaction/filter', 'ReportManageController@filterTransaction');
@@ -85,6 +77,24 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,kasir']], function(){
 	Route::get('/report/workers/filter/{id}', 'ReportManageController@filterWorker');
 	Route::get('/report/workers/detail/{id}', 'ReportManageController@detailWorker');
 	Route::post('/report/workers/export/{id}', 'ReportManageController@exportWorker');
+
+});
+
+Route::group(['middleware' => ['auth', 'checkRole:admin,pelanggan,pengusaha']], function(){
+	Route::get('/logout', 'AuthManageController@logoutProcess');
+	// ------------------------- Fitur Cari -------------------------
+	Route::get('/search/{word}', 'SearchManageController@searchPage');
+	// ------------------------- Profil -------------------------
+	Route::get('/profile', 'ProfileManageController@viewProfile');
+	Route::post('/profile/update/data', 'ProfileManageController@changeData');
+	Route::post('/profile/update/password', 'ProfileManageController@changePassword');
+	Route::post('/profile/update/picture', 'ProfileManageController@changePicture');
+	// ------------------------- Transaksi -------------------------
+	Route::get('/transaction', 'TransactionManageController@viewTransaction');
+	Route::get('/transaction/product/{id}', 'TransactionManageController@transactionProduct');
+	Route::get('/transaction/product/check/{id}', 'TransactionManageController@transactionProductCheck');
+	Route::post('/transaction/process', 'TransactionManageController@transactionProcess');
+	Route::get('/transaction/receipt/{id}', 'TransactionManageController@receiptTransaction');
 });
 
 // Auth::routes();
