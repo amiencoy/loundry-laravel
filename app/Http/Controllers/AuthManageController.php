@@ -12,7 +12,8 @@ class AuthManageController extends Controller
     // Show View Login
     public function viewLogin()
     {
-    	$users = User::all()->count();
+    	$users = User::all()
+    	->count();
 
     	return view('login', array('users' => 0,'url' => '/verify_login'));
     }
