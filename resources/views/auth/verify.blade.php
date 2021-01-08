@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/ionicons/css/ionicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/typicons/src/font/typicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.addons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/shared/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/css/sweetalert.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login/style.css') }}">
+    <link rel="shortcut icon" href="{{ asset('icons/favicon.png') }}"/>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
