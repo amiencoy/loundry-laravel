@@ -71,6 +71,8 @@
   </div>
 </div>
 <div class="row">
+
+  @if ($user == 'pengusaha')
   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="row">
       <div class="col-lg-6 col-md-12 col-sm-6 col-12 mb-4">
@@ -132,7 +134,6 @@
       </div>
     </div>
   </div>
-  @if ($user == 'pengusaha')
   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card b-radius card-noborder">
       <div class="card-body">
@@ -185,7 +186,7 @@
     </div>
   </div>
   @else
-  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+  <div class="col-sm-12 col-12">
     <div class="card b-radius card-noborder">
       <div class="card-body">
         <div class="row">

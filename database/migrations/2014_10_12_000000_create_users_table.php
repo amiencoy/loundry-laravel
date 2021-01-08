@@ -20,28 +20,16 @@ class CreateUsersTable extends Migration
             $table->string('kode_market')->nullable();
             $table->string('nama');
             $table->string('role');
+            $table->string('identitas')->nullable();
+            $table->string('ijin_usaha')->nullable();
             $table->string('foto');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
-
-        DB::table('users')->insert(
-            array(
-                'kode_market' => 0,
-                'nama' => 'admin',
-                'role' => 'admin',
-                'foto' => 'default.jpg',
-                'email' => 'admin@admin.com',
-                'email_verified_at' => null,
-                'username' => 'admin',
-                'password' => Hash::make('admin'),
-                'remember_token' => Str::random(60)
-            )
-        );
     }
 
     /**

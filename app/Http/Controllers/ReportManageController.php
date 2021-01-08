@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use Excel;
 use Auth;
 use Carbon\Carbon;
 use App\User;
@@ -11,6 +12,8 @@ use App\Market;
 use App\Supply;
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Exports\TransactionExport;
+
 
 class ReportManageController extends Controller
 {
@@ -299,6 +302,12 @@ class ReportManageController extends Controller
         }
     }
 
+
+    public function exs($id)
+    {
+        return Excel::download(new TransactionExport($id),'Transaction_Report.xlsx');
+    }
+
     // Export Worker Report
     public function exportWorker(Request $req, $id)
     {
@@ -528,4 +537,5 @@ class ReportManageController extends Controller
             return back();
         }
     }
+
 }

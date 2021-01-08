@@ -15,7 +15,7 @@ class AuthManageController extends Controller
     	$users = User::all()
     	->count();
 
-    	return view('login', array('users' => 0,'url' => '/verify_login'));
+    	return view('login', array('users' => 0,'url' => ($users == 0 )?'/first_account':'/verify_login','nusers' => $users));
     }
 
     public function viewRegist()

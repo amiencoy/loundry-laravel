@@ -3,13 +3,10 @@
 <link rel="stylesheet" href="{{ asset('css/manage_account/account/style.css') }}">
 @endsection
 @section('content')
-@php
-$verify = (isset($verify))? $verify : null ;
-@endphp
 <div class="row page-title-header">
   <div class="col-12">
     <div class="page-header d-flex justify-content-between align-items-center">
-      <h4 class="page-title">Daftar Akun {{($verify == true)? 'Pengusaha Baru' : ''}}</h4>
+      <h4 class="page-title">Daftar Akun</h4>
       <div class="d-flex justify-content-start">
       	<div class="dropdown">
 	        <button class="btn btn-icons btn-inverse-primary btn-filter shadow-sm" type="button" id="dropdownMenuIconButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,11 +32,9 @@ $verify = (isset($verify))? $verify : null ;
             </div>
           </div>
         </div>
-        @if($verify != true )
 	      <a href="{{ url('/account/new') }}" class="btn btn-icons btn-inverse-primary btn-new ml-2">
 	      	<i class="mdi mdi-plus"></i>
 	      </a>
-        @endif
       </div>
     </div>
   </div>
@@ -119,21 +114,12 @@ $verify = (isset($verify))? $verify : null ;
         	<div class="col-12 table-responsive">
         		<table class="table table-custom">
               <thead>
-                @if($verify == true )
-                <tr>
-                  <th>Nama</th>
-                  <th>Identitas</th>
-                  <th>Surat Ijin Usaha</th>
-                  <th></th>
-                </tr>
-                @else
                 <tr>
                   <th>Nama</th>
                   <th>Email</th>
                   <th>Posisi</th>
                   <th></th>
                 </tr>
-                @endif
               </thead>
               <tbody>
               	@foreach($users as $user)
@@ -142,10 +128,6 @@ $verify = (isset($verify))? $verify : null ;
                   	<img src="{{ asset('pictures/' . $user->foto) }}">
                   	<span class="ml-2">{{ $user->nama }}</span>
                   </td>
-                  @if($verify == true)
-                  <td><img src="{{ asset('images/ijin/' . $user->identitas) }}" data-action="zoom"></td>
-                  <td><img src="{{ asset('images/ijin/' . $user->ijin_usaha) }}" data-action="zoom"></td>
-                  @else
                   <td>{{ $user->email }}</td>
                   <td>
                     @if($user->role == 'admin')
@@ -154,19 +136,10 @@ $verify = (isset($verify))? $verify : null ;
                     <span class="btn kasir-span">{{ $user->role }}</span>
                     @endif
                   </td>
-
-                  @endif
                   <td>
                   	<button type="button" class="btn btn-edit btn-icons btn-rounded btn-secondary" data-toggle="modal" data-target="#editModal" data-edit="{{ $user->id }}">
                         <i class="mdi mdi-pencil"></i>
                     </button>
-                    @if($verify == true)
-                    <a href="{{ url('/verify/update/'.$user->id) }}">
-                    <button class="btn btn-edit btn-icons btn-rounded btn-secondary">
-                        <i class="mdi mdi-check"></i>
-                    </button>
-                    </a>
-                    @endif
                     <button type="button" data-delete="{{ $user->id }}" class="btn btn-icons btn-rounded btn-secondary ml-1 btn-delete">
                         <i class="mdi mdi-close"></i>
                     </button>

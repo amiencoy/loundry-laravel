@@ -27,6 +27,9 @@ Route::get('/forgot', function ()
 	return view('auth.forgot-password');
 });	
 
+
+
+Route::get('/coba/{id}', 'ReportManageController@exs');
 Route::get('/login', 'AuthManageController@viewLogin')->name('login');
 Route::post('/verify_login', 'AuthManageController@verifyLogin');		
 Route::get('/register', 'AuthManageController@viewRegist');
@@ -35,7 +38,8 @@ Route::post('/first_account', 'UserManageController@firstAccount');
 
 Route::group(['middleware' => ['auth', 'checkRole:admin']], function(){
 
-
+	Route::get('/verify', 'UserManageController@viewVerify');
+	Route::get('/verify/update/{id}', 'UserManageController@verifyData');
 	Route::get('/market/{id}', 'viewManageController@dataMarket');
 
 	// ------------------------- Kelola Akun -------------------------

@@ -14,8 +14,23 @@
             <div class="input-group-text">
               <i class="mdi mdi-export print-icon"></i>
             </div>
-            <button class="btn btn-print" type="button" data-toggle="modal" data-target="#cetakModal">Export Laporan</button>
+            <button class="btn btn-print" type="button" data-toggle="modal" data-target="#cetakModal">Export Laporan PDF</button>
           </div>
+          @if(auth()->user()->role == 'admin') 
+          @php
+          $market = \App\Market::all();
+          @endphp
+          <div class="input-group-prepend" style="margin-left: 10px">
+            <button type="button" class="btn btn-print dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Export Laporan Excel
+            </button>
+            <div class="dropdown-menu">
+              @foreach($market as $market)
+              <a class="dropdown-item" href="{{ url('/coba/'.$market->id)  }}">{{$market->nama_toko}}</a>
+              @endforeach
+            </div>
+          </div>
+          @endif
         </div>
       </div>
     </div>

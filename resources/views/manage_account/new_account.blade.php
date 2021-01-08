@@ -46,6 +46,18 @@
 				  	</div>
 				  	<div class="col-12 error-notice" id="email_error"></div>
 				  </div>
+
+				  <div class="form-group row" id="upSyarat">
+				  	<div>
+                    	<label class="col-12 font-weight-bold col-form-label">Identitas (KTP/SIM/Lainnya)</label> <br>
+                    	<input type="file" name="images[]" style="margin-left: 15px" >
+					</div>
+                  	<div>
+                    	<label class="col-12 font-weight-bold col-form-label">Surat Ijin Usaha</label>
+                    	<input type="file" name="images[]" style="margin-left: 15px" >
+                  	</div>
+                  </div>
+
 				  <div class="form-group row">
 				  	<label class="col-12 font-weight-bold col-form-label">Username <span class="text-danger">*</span></label>
 				  	<div class="col-12">
@@ -63,7 +75,7 @@
 				  <div class="form-group row">
 				  	<label class="col-12 font-weight-bold col-form-label">Posisi <span class="text-danger">*</span></label>
 				  	<div class="col-12">
-				  		<select class="form-control" name="role">
+				  		<select class="form-control" id="selectRole" name="role">
 				  			<option value="">-- Pilih Posisi --</option>
 				  			<option value="admin">Admin</option>
 				  			<option value="pelanggan">Pelanggan</option>
@@ -86,6 +98,20 @@
 @section('script')
 <script src="{{ asset('js/manage_account/new_account/script.js') }}"></script>
 <script type="text/javascript">
+
+	$(document).ready(function () {
+		$('#upSyarat').hide();
+		$('#selectRole ').change(function () {
+			//console.log($(this).val());
+			if ($(this).val() == 'pengusaha') {
+				$('#upSyarat').show();
+			}else{
+				$('#upSyarat').hide();
+			}
+		});
+		
+	});
+
 	@if ($message = Session::get('both_error'))
 	  swal(
 		"",

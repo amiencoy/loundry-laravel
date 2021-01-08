@@ -23,7 +23,7 @@ class CreateMarketTable extends Migration
 
         DB::table('markets')->insert(
             array(
-                'nama_toko' => 'Toko Pratama',
+                'nama_toko' => 'Laundry Pratama',
                 'no_telp' => '087878787878',
                 'alamat' => 'Jl. Mawar no.86, Bogor'
             )

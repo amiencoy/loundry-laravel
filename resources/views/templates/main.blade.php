@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/main/style.css') }}">
     <link rel="shortcut icon" href="{{ asset('icons/favicon.png') }}"/>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/zoom.css') }}">
     @yield('css')
     <!-- End-CSS -->
 
@@ -49,7 +50,7 @@
               ->take(3)
               ->get();
               @endphp
-              @if(auth()->user()->role != "pelanggan")
+              @if(auth()->user()->role == "pengusaha")
               <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline"></i>
                 @if($cek_supply_system->status == 1)
@@ -145,6 +146,14 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url('/dashboard') }}">
                 <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            @endif
+
+            @if (auth()->user()->role == 'admin')
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('/verify') }}">
+                <span class="menu-title">Verifikasi Pengusaha</span>
               </a>
             </li>
             @endif
@@ -309,6 +318,7 @@
     <script src="{{ asset('plugins/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('plugins/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/templates/script.js') }}"></script>
+    <script src="{{ asset('assets/js/zoom.js') }}"></script>
     <script type="text/javascript">
       $(document).on('input', 'input[name=search_page]', function(){
         if($(this).val() != ''){

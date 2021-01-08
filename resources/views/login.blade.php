@@ -27,6 +27,7 @@
             <div class="col-lg-4 mx-auto">
               <div class="auto-form-wrapper">
                 @if($users == 0)
+                @if($nusers !=0)
                 <form action="{{ url('/verify_login') }}" method="post" name="login_form">
                   @csrf
                   <div class="form-group">
@@ -56,11 +57,12 @@
                     Mendaftar sebagai pengusaha? <a href="{{ url('/register_pengusaha') }}">Daftar</a>
                   </div>
                 </form>
-                @elseif($users == 1)
-                <center>Daftar Sebagai Pengusaha</center>
+
+                @else
+                <center>Daftar admin</center>
                 <form action="{{ url($url) }}" method="post" name="create_form">
                   @csrf
-                  <input type="hidden" class="form-control" name="role" value="1">
+                  <input type="hidden" class="form-control" name="role" value="admin">
                   <div class="form-group">
                     <label class="label">Nama</label>
                     <div class="input-group">
@@ -100,6 +102,53 @@
                   <div class="form-group">
                     <button class="btn btn-primary submit-btn btn-block">Buat Akun</button>
                   </div>
+                  </form>
+
+                @endif
+
+                @elseif($users == 1)
+                <center>Daftar Sebagai Pengusaha</center>
+                <form action="{{ url($url) }}" method="post" name="create_form" enctype="multipart/form-data">
+                  @csrf
+                  <input type="hidden" class="form-control" name="role" value="pengusaha">
+                  <div class="form-group">
+                    <label class="label">Nama</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="nama" placeholder="Nama">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="nama_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Email</label>
+                    <div class="input-group">
+                      <input type="email" class="form-control" name="email" placeholder="Email">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="email_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Username</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="username_2" placeholder="Username">
+                      <div class="input-group-append">
+                        <span class="input-group-text check-value" id="username_2_error"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Identitas (KTP/SIM/Lainnya)</label>
+                    <input type="file" name="images[]" >
+                  </div>
+                  <div class="form-group">
+                    <label class="label">Surat Ijin Usaha</label>                    
+                    <input type="file" name="images[]" >                      
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary submit-btn btn-block">Buat Akun</button>
+                  </div>
                   <div >
                     Sudah Punya akun? <a href="{{ url('/login') }}">Login</a>
                   </div><div >
@@ -110,7 +159,7 @@
                 <center>Daftar Sebagai Pelanggan</center>
                 <form action="{{ url($url) }}" method="post" name="create_form">
                   @csrf
-                  <input type="hidden" class="form-control" name="role" value="2">
+                  <input type="hidden" class="form-control" name="role" value="pelanggan">
                   <div class="form-group">
                     <label class="label">Nama</label>
                     <div class="input-group">
@@ -174,6 +223,10 @@
     <script src="{{ asset('plugins/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/login/script.js') }}"></script>
     <script type="text/javascript">
+      $('#1').change(function () {
+        // body...
+      });
+
       @if ($message = Session::get('create_success'))
         swal(
             "Berhasil!",
