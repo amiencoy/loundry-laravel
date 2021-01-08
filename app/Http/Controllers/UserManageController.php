@@ -175,7 +175,7 @@ class UserManageController extends Controller
                 if (isset($req->images[0])) {
                     $identitas = $req->file('images')[0];
                     $users->identitas = $identitas->getClientOriginalName();
-                    $identitas->move(public_path('images/identitas/'), $foto->getClientOriginalName());
+                    $identitas->move(public_path('images/identitas/'), $identitas->getClientOriginalName());
                 }else{
                     $users->identitas = null;
                 }   
@@ -184,14 +184,14 @@ class UserManageController extends Controller
                 if (isset($req->images[1]) ) {
                     $ijin = $req->file('images')[1];
                     $users->ijin_usaha = $ijin->getClientOriginalName();
-                    $ijin->move(public_path('images/ijin/'), $foto->getClientOriginalName());
+                    $ijin->move(public_path('images/ijin/'), $ijin->getClientOriginalName());
                 }else{
                     $users->ijin_usaha = null;
                 }
 
                 //foto
                 //$foto = (isset($req->images[2])) ? $req->images[2] : $req->foto ;
-                if ( $foto != '' ) {
+                if ( isset($req->images[2]) ) {
                     $foto =  (isset($req->images[2])) ? $req->file('images')[2] : $req->file('foto');
                     $users->foto = $foto[2]->getClientOriginalName();
                     $foto->move(public_path('pictures/'), $foto->getClientOriginalName());
